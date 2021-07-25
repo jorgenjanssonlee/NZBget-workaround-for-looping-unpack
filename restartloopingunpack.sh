@@ -8,4 +8,17 @@
 ## Specify how long, in minutes, a post-processing job can be running before beign considered in a hung state
 PPlimit="5"
 
-/usr/local/bin/nzbget/nzbget -c /config/nzbget.conf -L O
+## Check if post-processing queue contains any jobs
+if /usr/local/bin/nzbget/nzbget -c /config/nzbget.conf -L O | grep -q "Server has no jobs queued for post-processing"; then
+  echo "no queued job, exiting"
+  exit 0
+elif /usr/local/bin/nzbget/nzbget -c /config/nzbget.conf -L O | grep -q "Post-Processing List"; then
+  if [[ ! -e "/config/PPtracking.tmp" ]]; then
+    echo "jobs are queued but PPtracking.tmp file does not exists. Write queue to file and exit"
+    exit 0
+  else
+    echo "jobs are queued and PPtracking.tmp file exists.\
+     Check if it's the same job in queue and if PPlimit is reached\
+     Then restart, othwerwise exit"
+  fi
+fi
