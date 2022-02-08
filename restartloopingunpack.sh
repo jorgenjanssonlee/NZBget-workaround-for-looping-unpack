@@ -14,7 +14,7 @@ if /usr/local/bin/nzbget/nzbget -c /config/nzbget.conf -L O | grep -q "Server ha
   exit 0
 elif /usr/local/bin/nzbget/nzbget -c /config/nzbget.conf -L O | grep -q "Post-Processing List"; then
   if [[ ! -e "/config/PPtracking.tmp" ]]; then
-    echo "jobs are queued but PPtracking.tmp file does not exists. Write queue to file and exit"
+    echo "jobs are queued but PPtracking.tmp file does not exist. Write queue to file and exit"
     exit 0
   else
     echo "jobs are queued and PPtracking.tmp file exists.\
